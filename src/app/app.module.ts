@@ -3,13 +3,21 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TopNavComponent } from './top-nav/top-nav.component';
+import {HttpClientModule} from '@angular/common/http';
+import { TeamComponent } from './team/team.component';
+import {ChartsModule} from 'ng2-charts';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TopNavComponent,
+    TeamComponent
   ],
   imports: [
     BrowserModule,
+    ChartsModule,
+    HttpClientModule,
     NgbModule
   ],
   providers: [],

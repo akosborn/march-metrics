@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-6 my-3">
+    <div class="p-3 bg-white shadow-sm">
+      <h3>NET</h3>
+      <div style="display: block;" *ngIf="netChartData">
+        <canvas baseChart height="100%"
+                [datasets]="netChartData"
+                [labels]="netChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 my-3">
+    <div class="p-3 bg-white shadow-sm">
+      <h3>SOS</h3>
+      <div style="display: block;" *ngIf="sosChartData">
+        <canvas baseChart height="100%"
+                [datasets]="sosChartData"
+                [labels]="sosChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 my-3">
+    <div class="p-3 bg-white shadow-sm">
+      <h3>Avg Opp NET</h3>
+      <div style="display: block;" *ngIf="avgOppNetChartData">
+        <canvas baseChart height="100%"
+                [datasets]="avgOppNetChartData"
+                [labels]="avgOppNetChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
