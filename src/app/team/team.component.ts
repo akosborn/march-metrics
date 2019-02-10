@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Team} from '../shared/team.model';
 import {MetricService} from '../metric.service';
 import {Metrics} from '../shared/metrics.model';
+import {Conference} from '../shared/conference.model';
 
 @Component({
   selector: 'app-team',
@@ -9,6 +10,9 @@ import {Metrics} from '../shared/metrics.model';
   styleUrls: ['./team.component.css']
 })
 export class TeamComponent implements OnInit {
+
+  conferences: Array<Conference>;
+  selectedConference: Conference;
 
   team: Team;
   netChartData: Array<any>;
@@ -20,20 +24,26 @@ export class TeamComponent implements OnInit {
   avgOppNetChartData: Array<any>;
   avgOppNetChartLabels: Array<any>;
 
-  constructor(private metricService: MetricService) { }
-
-  ngOnInit(): void {
-    this.metricService.loadTeam(18).subscribe(
-      (team: Team) => {
-        this.team = team;
-        this.buildNETChart(team);
-        this.buildSOSChart(team);
-        this.buildAvgOppNETChart(team);
-      }
-    );
-  }
-
-  public lineChartOptions:any = {
+  resultsChartData: Array<any>;
+  resultsChartLabels: Array<any>;
+  resultsChartColors: Array<any> = [
+    // { // wins
+    //   borderColor: '#349805'
+    // },
+    // { // losses
+    //   borderColor: '#CC0204'
+    // },
+    { // Q1 wins
+      borderColor: '#349805'
+    },
+    { // Q2 Wins
+      borderColor: '#04339B'
+    },
+    { // Q3 + Q4 Losses
+      borderColor: '#CC0204'
+    }
+  ];
+  resultsChartOptions: any = {
     responsive: true,
     scales: {
       yAxes: [
@@ -43,36 +53,75 @@ export class TeamComponent implements OnInit {
           }
         }
       ]
+    },
+    elements: {
+      line: {
+        fill: false
+      }
+    },
+    tooltips: {
+      mode: 'index',
+      intersect: false
+    },
+    hover: {
+      mode: 'index',
+      intersect: false
     }
   };
-  public lineChartColors:Array<any> = [
-    { // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+
+  lineChartOptions: any = {
+    responsive: true,
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true
+          }
+        }
+      ]
     },
-    { // dark grey
-      backgroundColor: 'rgba(77,83,96,0.2)',
-      borderColor: 'rgba(77,83,96,1)',
-      pointBackgroundColor: 'rgba(77,83,96,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(77,83,96,1)'
+    elements: {
+      line: {
+        fill: false
+      }
     },
-    { // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    tooltips: {
+      mode: 'index',
+      intersect: false
+    },
+    hover: {
+      mode: 'index',
+      intersect: false
     }
-  ];
-  public lineChartLegend:boolean = true;
-  public lineChartType:string = 'line';
+  };
+  lineChartColors: Array<any>;
+  lineChartLegend = false;
+  lineChartType = 'line';
+
+  constructor(private metricService: MetricService) { }
+
+  ngOnInit(): void {
+    this.metricService.loadConferences().subscribe(
+      (conferences: Array<Conference>) => {
+        this.conferences = conferences;
+        this.selectedConference = this.conferences[0]; // Defaults to AAC
+        // console.log(this.selectedConference.teams);
+        this.metricService.loadTeam(this.selectedConference.teams[0].id).subscribe( // Defaults to Cincinnati
+          (team: Team) => {
+            this.team = team;
+            this.buildCharts(this.team);
+          }
+        );
+      }
+    );
+  }
+
+  buildCharts(team: Team): void {
+    this.buildNETChart(team);
+    this.buildSOSChart(team);
+    this.buildAvgOppNETChart(team);
+    this.buildResultsChart(team);
+  }
 
   buildNETChart(team: Team): void {
     this.netChartData = TeamComponent.buildNETChartData(team);
@@ -87,6 +136,11 @@ export class TeamComponent implements OnInit {
   buildAvgOppNETChart(team: Team): void {
     this.avgOppNetChartData = TeamComponent.buildAvgOppNETChartData(team);
     this.avgOppNetChartLabels = TeamComponent.buildDateList(team.metrics);
+  }
+
+  buildResultsChart(team: Team): void {
+    this.resultsChartData = TeamComponent.buildResultsChartData(team);
+    this.resultsChartLabels = TeamComponent.buildDateList(team.metrics);
   }
 
   static buildNETChartData(team: Team): Array<any> {
@@ -125,11 +179,60 @@ export class TeamComponent implements OnInit {
     return data;
   }
 
+  static buildResultsChartData(team: Team): Array<any> {
+    const data = [];
+
+    const q1WinData = {} as any;
+    q1WinData.data = [];
+    for (const metrics of team.metrics) {
+      q1WinData.data.push(metrics.q1Wins);
+    }
+    q1WinData.label = 'Q1 Wins';
+    data.push(q1WinData);
+
+    const q2WinData = {} as any;
+    q2WinData.data = [];
+    for (const metrics of team.metrics) {
+      q2WinData.data.push(metrics.q2Wins);
+    }
+    q2WinData.label = 'Q2 Wins';
+    data.push(q2WinData);
+
+    const q3q4LossData = {} as any;
+    q3q4LossData.data = [];
+    for (const metrics of team.metrics) {
+      q3q4LossData.data.push(metrics.q3Losses + metrics.q4Losses);
+    }
+    q3q4LossData.label = 'Q3 + Q4 Losses';
+    data.push(q3q4LossData);
+
+    return data;
+  }
+
   static buildDateList(items: Array<Metrics>): Array<string> {
     const labels = [];
     for (const item of items) {
       labels.push(item.date);
     }
     return labels;
+  }
+
+  onConferenceSelected(id: string) {
+    this.selectedConference = this.conferences.filter(conference => {
+      return conference.id.toString() === id;
+    })[0];
+    this.onTeamSelected(this.selectedConference.teams[0].id.toString()); // Load first team listed in conference by default
+  }
+
+  onTeamSelected(id: string) {
+    this.metricService.loadTeam(Number(id)).subscribe(
+      (team: Team) => {
+        this.team = team;
+        this.buildCharts(this.team);
+      });
+  }
+
+  getCurrentMetrics(): Metrics {
+    return this.team.metrics[this.team.metrics.length - 1];
   }
 }

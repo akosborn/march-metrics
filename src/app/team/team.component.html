@@ -1,7 +1,26 @@
+<form class="form-row">
+  <div class="col-auto">
+    <label for="conference">Conference</label>
+    <select #confSelect (change)="onConferenceSelected(confSelect.value)" class="form-control" id="conference">
+      <option *ngFor="let conf of conferences" [value]="conf.id">{{ conf.name }}</option>
+    </select>
+  </div>
+  <div class="col-auto" *ngIf="selectedConference">
+    <label for="team">Team</label>
+    <select #teamSelect (change)="onTeamSelected(teamSelect.value)" class="form-control" id="team">
+      <option *ngFor="let team of selectedConference.teams" [value]="team.id">{{ team.name }}</option>
+    </select>
+  </div>
+</form>
 <div class="row">
   <div class="col-6 my-3">
     <div class="p-3 bg-white shadow-sm">
-      <h3>NET</h3>
+      <div class="row align-items-end">
+        <div class="col">
+          <h3 class="text-left mb-0 d-inline">NET</h3>
+          <span style="font-size: 15px">{{ '#' + getCurrentMetrics().net }}</span>
+        </div>
+      </div>
       <div style="display: block;" *ngIf="netChartData">
         <canvas baseChart height="100%"
                 [datasets]="netChartData"
@@ -15,7 +34,12 @@
   </div>
   <div class="col-6 my-3">
     <div class="p-3 bg-white shadow-sm">
-      <h3>SOS</h3>
+      <div class="row align-items-end">
+        <div class="col">
+          <h3 class="text-left mb-0 d-inline">SOS</h3>
+          <span style="font-size: 15px">{{ '#' + getCurrentMetrics().sos }}</span>
+        </div>
+      </div>
       <div style="display: block;" *ngIf="sosChartData">
         <canvas baseChart height="100%"
                 [datasets]="sosChartData"
@@ -29,7 +53,12 @@
   </div>
   <div class="col-6 my-3">
     <div class="p-3 bg-white shadow-sm">
-      <h3>Avg Opp NET</h3>
+      <div class="row align-items-end">
+        <div class="col">
+          <h3 class="text-left mb-0 d-inline">AVG OPP NET</h3>
+          <span style="font-size: 15px">{{ '#' + getCurrentMetrics().avgOppNET }}</span>
+        </div>
+      </div>
       <div style="display: block;" *ngIf="avgOppNetChartData">
         <canvas baseChart height="100%"
                 [datasets]="avgOppNetChartData"
@@ -37,6 +66,25 @@
                 [options]="lineChartOptions"
                 [colors]="lineChartColors"
                 [legend]="lineChartLegend"
+                [chartType]="lineChartType"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 my-3">
+    <div class="p-3 bg-white shadow-sm">
+      <div class="row align-items-end">
+        <div class="col">
+          <h3 class="text-left mb-0 d-inline">RESULTS BY QUADRANT</h3>
+          <span style="font-size: 15px">{{ getCurrentMetrics().wins + '-' + getCurrentMetrics().losses }}</span>
+        </div>
+      </div>
+      <div style="display: block;" *ngIf="avgOppNetChartData">
+        <canvas baseChart height="100%"
+                [datasets]="resultsChartData"
+                [labels]="resultsChartLabels"
+                [options]="lineChartOptions"
+                [colors]="resultsChartColors"
+                [legend]="true"
                 [chartType]="lineChartType"></canvas>
       </div>
     </div>

@@ -1,0 +1,132 @@
+<div class="row align-items-end">
+  <div class="col-auto">
+    <form class="form-row align-items-end">
+      <div class="col-auto">
+        <label for="conference">Conference</label>
+        <select #confSelect (change)="onConferenceSelected(confSelect.value)" class="form-control" id="conference">
+          <option *ngFor="let conf of conferences" [value]="conf.id">{{ conf.name }}</option>
+        </select>
+      </div>
+      <div class="col-auto" *ngIf="selectedConference">
+        <label for="team">Team</label>
+        <select #teamSelect (change)="onTeamSelected(teamSelect.value)" class="form-control" id="team">
+          <option *ngFor="let team of selectedConference.teams" [value]="team.id">{{ team.name }}</option>
+        </select>
+      </div>
+      <div class="col-auto">
+        <button type="button" class="btn btn-primary" (click)="onAddTeam()">Add</button>
+      </div>
+      <div class="col-auto">
+        <button type="button" class="btn btn-primary" (click)="onAddConference()">Add Conference</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row my-3">
+  <div class="col-auto">
+    <ng-container *ngFor="let team of teams">
+      <button *ngIf="!isInVisibleConferences(team.conference.id)" type="button" class="btn btn-danger mx-1" (click)="onRemoveTeam(team.id)">
+        {{ team.name }} <span class="badge badge-light ml-1">X</span>
+        <span class="sr-only">remove team</span>
+      </button>
+    </ng-container>
+  </div>
+  <div class="col-auto">
+    <button *ngFor="let conf of visibleConferences" type="button" class="btn btn-warning mx-1" (click)="onRemoveConference(conf.id)">
+      {{ conf.name }} <span class="badge badge-light ml-1">X</span>
+      <span class="sr-only">remove conference</span>
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div *ngIf="currentMetricsChartData" class="col-lg-6 my-3">
+    <div class="p-3 bg-white shadow-sm">
+      <div class="row align-items-end">
+        <div class="col">
+          <h3>CURRENT RANKINGS</h3>
+        </div>
+      </div>
+      <div style="display: block;">
+        <canvas baseChart height="100%"
+                [datasets]="currentMetricsChartData"
+                [labels]="currentMetricsChartLabels"
+                [options]="barChartOptions"
+                [colors]="currentMetricsChartColors"
+                [legend]="lineChartLegend"
+                chartType="bar"></canvas>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="currentMetricsChartData" class="col-lg-6 my-3">
+    <div class="p-3 bg-white shadow-sm">
+      <div class="row align-items-end">
+        <div class="col">
+          <h3>QUADRANTS</h3>
+        </div>
+      </div>
+      <div style="display: block;">
+        <canvas baseChart height="100%"
+                [datasets]="quadrantsChartData"
+                [labels]="quadrantsChartLabels"
+                [options]="barChartOptions"
+                [colors]="quadrantsChartColors"
+                [legend]="lineChartLegend"
+                chartType="bar"></canvas>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="netChartData" class="col-lg-6 my-3">
+    <div class="p-3 bg-white shadow-sm">
+      <div class="row align-items-end">
+        <div class="col">
+          <h3>NET</h3>
+        </div>
+      </div>
+      <div style="display: block;">
+        <canvas baseChart height="100%"
+                [datasets]="netChartData"
+                [labels]="netChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 my-3">
+    <div  *ngIf="sosChartData" class="p-3 bg-white shadow-sm">
+      <div class="row align-items-end">
+        <div class="col">
+          <h3 class="text-left mb-0 d-inline">SOS</h3>
+        </div>
+      </div>
+      <div style="display: block;">
+        <canvas baseChart height="100%"
+                [datasets]="sosChartData"
+                [labels]="sosChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 my-3">
+    <div *ngIf="avgOppNetChartData" class="p-3 bg-white shadow-sm">
+      <div class="row align-items-end">
+        <div class="col">
+          <h3 class="text-left mb-0 d-inline">AVG OPP NET</h3>
+        </div>
+      </div>
+      <div style="display: block;">
+        <canvas baseChart height="100%"
+                [datasets]="avgOppNetChartData"
+                [labels]="avgOppNetChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"></canvas>
+      </div>
+    </div>
+  </div>
+</div>

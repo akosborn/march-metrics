@@ -6,15 +6,19 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TopNavComponent } from './top-nav/top-nav.component';
 import {HttpClientModule} from '@angular/common/http';
 import { TeamComponent } from './team/team.component';
-import {ChartsModule} from 'ng2-charts';
+import { CompareComponent } from './compare/compare.component';
+import {AppRoutingModule} from './app-routing.module';
+import {ChartsModule} from 'ng4-charts';
 
 @NgModule({
   declarations: [
     AppComponent,
     TopNavComponent,
-    TeamComponent
+    TeamComponent,
+    CompareComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     ChartsModule,
     HttpClientModule,
