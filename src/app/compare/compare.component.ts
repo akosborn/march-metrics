@@ -151,7 +151,7 @@ export class CompareComponent implements OnInit {
   }
 
   onRemoveTeam(id: number): void {
-    this.teams = (this.teams.length > 1) ? this.teams.filter((team: Team) => team.id === id) : null; // Filter won't remove last element
+    this.teams = (this.teams && this.teams.length > 1) ? this.teams.filter((team: Team) => team.id !== id) : null; // Filter won't remove last element
     this.buildNETChart(this.teams);
     this.buildSOSChart(this.teams);
     this.buildAvgOppNETChart(this.teams);
@@ -161,7 +161,7 @@ export class CompareComponent implements OnInit {
 
   onRemoveConference(id: number): void {
     this.teams = this.teams.filter(
-      (team) => team.conference.id === id
+      (team) => team.conference.id !== id
     );
     if (this.teams.length > 0 && this.teams[0].conference.id === id) { // Filter won't remove last element, so doing it here if necessary
       this.teams = [];

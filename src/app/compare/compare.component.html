@@ -1,5 +1,5 @@
 <div class="row align-items-end">
-  <div class="col-auto">
+  <div class="col-auto" *ngIf="conferences">
     <form class="form-row align-items-end">
       <div class="col-auto">
         <label for="conference">Conference</label>
@@ -22,20 +22,20 @@
     </form>
   </div>
 </div>
-<div class="row my-3">
+<div class="row my-2">
+  <div class="col-auto mr-2" *ngIf="visibleConferences  && visibleConferences.size > 0">
+    <button *ngFor="let conf of visibleConferences" type="button" class="btn btn-warning" (click)="onRemoveConference(conf.id)">
+      {{ conf.name }} <span class="badge badge-light ml-1">X</span>
+      <span class="sr-only">remove conference</span>
+    </button>
+  </div>
   <div class="col-auto">
     <ng-container *ngFor="let team of teams">
-      <button *ngIf="!isInVisibleConferences(team.conference.id)" type="button" class="btn btn-danger mx-1" (click)="onRemoveTeam(team.id)">
+      <button *ngIf="!isInVisibleConferences(team.conference.id)" type="button" class="btn btn-danger mr-2" (click)="onRemoveTeam(team.id)">
         {{ team.name }} <span class="badge badge-light ml-1">X</span>
         <span class="sr-only">remove team</span>
       </button>
     </ng-container>
-  </div>
-  <div class="col-auto">
-    <button *ngFor="let conf of visibleConferences" type="button" class="btn btn-warning mx-1" (click)="onRemoveConference(conf.id)">
-      {{ conf.name }} <span class="badge badge-light ml-1">X</span>
-      <span class="sr-only">remove conference</span>
-    </button>
   </div>
 </div>
 <div class="row">
@@ -43,7 +43,7 @@
     <div class="p-3 bg-white shadow-sm">
       <div class="row align-items-end">
         <div class="col">
-          <h3>CURRENT RANKINGS</h3>
+          <h3>RANKINGS</h3>
         </div>
       </div>
       <div style="display: block;">
