@@ -43,7 +43,11 @@ export class TeamComponent implements OnInit {
       borderColor: '#CC0204'
     }
   ];
-  resultsChartOptions: any = {
+
+  quadWinPctData: Array<any>;
+  quadWinPctLabels: Array<any>;
+
+  winPctOptions: any = {
     responsive: true,
     scales: {
       yAxes: [
@@ -60,12 +64,15 @@ export class TeamComponent implements OnInit {
       }
     },
     tooltips: {
+      enabled: true,
       mode: 'index',
-      intersect: false
-    },
-    hover: {
-      mode: 'index',
-      intersect: false
+      intersect: false,
+      callbacks: {
+        label: function (tooltipItem, data) {
+          const quad = tooltipItem.datasetIndex;
+          return data.datasets[quad].record + ', ' + tooltipItem.yLabel;
+        }
+      }
     }
   };
 
@@ -121,6 +128,7 @@ export class TeamComponent implements OnInit {
     this.buildSOSChart(team);
     this.buildAvgOppNETChart(team);
     this.buildResultsChart(team);
+    this.buildQuadrantWinPctChart(team);
   }
 
   buildNETChart(team: Team): void {
@@ -141,6 +149,11 @@ export class TeamComponent implements OnInit {
   buildResultsChart(team: Team): void {
     this.resultsChartData = TeamComponent.buildResultsChartData(team);
     this.resultsChartLabels = TeamComponent.buildDateList(team.metrics);
+  }
+
+  buildQuadrantWinPctChart(team: Team): void {
+    this.quadWinPctData = TeamComponent.buildQuadrantWinPctData(team);
+    this.quadWinPctLabels = TeamComponent.buildDateList(team.metrics);
   }
 
   static buildNETChartData(team: Team): Array<any> {
@@ -206,6 +219,39 @@ export class TeamComponent implements OnInit {
     q3q4LossData.label = 'Q3 + Q4 Losses';
     data.push(q3q4LossData);
 
+    return data;
+  }
+
+  static buildQuadrantWinPctData(team: Team): Array<any> {
+    const data = [];
+
+    const q1Data = {
+      data: [],
+      label: 'Q1 Win %'
+    } as any;
+    const q2Data = {
+      data: [],
+      label: 'Q2 Win %'
+    } as any;
+    const q3Data = {
+      data: [],
+      label: 'Q3 Win %'
+    } as any;
+    const q4Data = {
+      data: [],
+      label: 'Q4 Win %'
+    } as any;
+    for (const metrics of team.metrics) {
+      q1Data.data.push((metrics.q1Wins / (metrics.q1Wins + metrics.q1Losses)).toFixed(3));
+      q1Data.record = metrics.q1Wins + '-' + metrics.q1Losses;
+      q2Data.data.push((metrics.q2Wins / (metrics.q2Wins + metrics.q2Losses)).toFixed(3));
+      q2Data.record = metrics.q2Wins + '-' + metrics.q2Losses;
+      q3Data.data.push((metrics.q3Wins / (metrics.q3Wins + metrics.q3Losses)).toFixed(3));
+      q3Data.record = metrics.q3Wins + '-' + metrics.q3Losses;
+      q4Data.data.push((metrics.q4Wins / (metrics.q4Wins + metrics.q4Losses)).toFixed(3));
+      q4Data.record = metrics.q4Wins + '-' + metrics.q4Losses;
+    }
+    data.push(q1Data, q2Data, q3Data, q4Data);
     return data;
   }
 
