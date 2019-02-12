@@ -70,7 +70,7 @@ export class TeamComponent implements OnInit {
       callbacks: {
         label: function (tooltipItem, data) {
           const quad = tooltipItem.datasetIndex;
-          return data.datasets[quad].record + ', ' + tooltipItem.yLabel;
+          return data.datasets[quad].recordData[tooltipItem.index] + ', ' + tooltipItem.yLabel;
         }
       }
     }
@@ -227,29 +227,33 @@ export class TeamComponent implements OnInit {
 
     const q1Data = {
       data: [],
-      label: 'Q1 Win %'
+      label: 'Q1 Win %',
+      recordData: []
     } as any;
     const q2Data = {
       data: [],
-      label: 'Q2 Win %'
+      label: 'Q2 Win %',
+      recordData: []
     } as any;
     const q3Data = {
       data: [],
-      label: 'Q3 Win %'
+      label: 'Q3 Win %',
+      recordData: []
     } as any;
     const q4Data = {
       data: [],
-      label: 'Q4 Win %'
+      label: 'Q4 Win %',
+      recordData: []
     } as any;
     for (const metrics of team.metrics) {
       q1Data.data.push((metrics.q1Wins / (metrics.q1Wins + metrics.q1Losses)).toFixed(3));
-      q1Data.record = metrics.q1Wins + '-' + metrics.q1Losses;
+      q1Data.recordData.push(metrics.q1Wins + '-' + metrics.q1Losses);
       q2Data.data.push((metrics.q2Wins / (metrics.q2Wins + metrics.q2Losses)).toFixed(3));
-      q2Data.record = metrics.q2Wins + '-' + metrics.q2Losses;
+      q2Data.recordData.push(metrics.q2Wins + '-' + metrics.q2Losses);
       q3Data.data.push((metrics.q3Wins / (metrics.q3Wins + metrics.q3Losses)).toFixed(3));
-      q3Data.record = metrics.q3Wins + '-' + metrics.q3Losses;
+      q3Data.recordData.push(metrics.q3Wins + '-' + metrics.q3Losses);
       q4Data.data.push((metrics.q4Wins / (metrics.q4Wins + metrics.q4Losses)).toFixed(3));
-      q4Data.record = metrics.q4Wins + '-' + metrics.q4Losses;
+      q4Data.recordData.push(metrics.q4Wins + '-' + metrics.q4Losses);
     }
     data.push(q1Data, q2Data, q3Data, q4Data);
     return data;
