@@ -6,5 +6,5 @@ import {Component} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  static API_BASE_URL = 'http://marchcharts.com/api';
+  static API_BASE_URL = 'https://marchcharts.com/api';
 }
