@@ -1,0 +1,51 @@
+<div class="col-lg-6 my-3">
+  <div *ngIf="teamMetricsChanges" class="p-3 bg-white shadow-sm">
+    <div class="row align-items-end">
+      <div class="col">
+        <h3 class="text-left mb-0 d-inline">MOVEMENT</h3>
+        <table class="table table-bordered table-sm table-responsive-sm">
+          <thead>
+          <tr>
+            <td scope="col"></td>
+            <td class="text-center" scope="col" colspan="6">2/15/18</td>
+            <td class="text-center" scope="col" colspan="6">2/8/18 - 2/15/18 +/-</td>
+          </tr>
+          <tr>
+            <td scope="col">Team</td>
+            <td scope="col">NET</td>
+            <td scope="col">SOS</td>
+            <td scope="col">Q1 W</td>
+            <td scope="col">Q2 W</td>
+            <td scope="col">Q3 L</td>
+            <td scope="col">Q4 L</td>
+            <td scope="col">NET</td>
+            <td scope="col">SOS</td>
+            <td scope="col">Q1 W</td>
+            <td scope="col">Q2 W</td>
+            <td scope="col">Q3 L</td>
+            <td scope="col">Q4 L</td>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let team of teamMetricsChanges | paginate: { itemsPerPage: 10, currentPage: p }">
+            <td>{{ team.teamName }}</td>
+            <td>{{ team.net }}</td>
+            <td>{{ team.sos }}</td>
+            <td>{{ team.q1Wins }}</td>
+            <td>{{ team.q2Wins }}</td>
+            <td>{{ team.q3Losses }}</td>
+            <td>{{ team.q4Losses }}</td>
+            <td>{{ team.netChange }}</td>
+            <td>{{ team.sosChange }}</td>
+            <td>{{ team.q1WinsChange }}</td>
+            <td>{{ team.q2WinsChange }}</td>
+            <td>{{ team.q3LossesChange }}</td>
+            <td>{{ team.q4LossesChange }}</td>
+          </tr>
+          </tbody>
+        </table>
+        <pagination-controls class="text-center" (pageChange)="p = $event"></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

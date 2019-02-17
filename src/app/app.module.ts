@@ -9,20 +9,24 @@ import { TeamComponent } from './team/team.component';
 import { CompareComponent } from './compare/compare.component';
 import {AppRoutingModule} from './app-routing.module';
 import {ChartsModule} from 'ng4-charts';
+import { HomeComponent } from './home/home.component';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   declarations: [
     AppComponent,
     TopNavComponent,
     TeamComponent,
-    CompareComponent
+    CompareComponent,
+    HomeComponent
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     ChartsModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]
