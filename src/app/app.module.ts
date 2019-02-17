@@ -9,20 +9,32 @@ import { TeamComponent } from './team/team.component';
 import { CompareComponent } from './compare/compare.component';
 import {AppRoutingModule} from './app-routing.module';
 import {ChartsModule} from 'ng4-charts';
+import { HomeComponent } from './home/home.component';
+import {NgxPaginationModule} from 'ngx-pagination';
+import {OrderModule} from 'ngx-order-pipe';
+import { InverseSignPipe } from './inversesign.pipe';
+import { SignPrependPipe } from './signprepend.pipe';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     TopNavComponent,
     TeamComponent,
-    CompareComponent
+    CompareComponent,
+    HomeComponent,
+    InverseSignPipe,
+    SignPrependPipe
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     ChartsModule,
+    FormsModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    NgxPaginationModule,
+    OrderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
