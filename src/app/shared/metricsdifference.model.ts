@@ -14,6 +14,7 @@ export class MetricsDifference {
   q1Wins2: number;
   q1WinsChange: number;
   q2Wins1: number;
+  q2Wins2: number;
   q2WinsChange: number;
   q3Losses1: number;
   q3Losses2: number;
