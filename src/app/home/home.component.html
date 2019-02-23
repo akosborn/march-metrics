@@ -42,21 +42,21 @@
                 (click)="setOrder('teamName')">Team
               <span *ngIf="order === 'teamName'">
                 <span [hidden]="reverse">▼</span>
-              <span [hidden]="!reverse">▲</span>
+                <span [hidden]="!reverse">▲</span>
               </span>
             </th>
             <th class="text-left" scope="col" [class.active]="order === 'conferenceName'"
                 (click)="setOrder('conferenceName')">Conference
               <span *ngIf="order === 'conferenceName'">
                 <span [hidden]="reverse">▼</span>
-              <span [hidden]="!reverse">▲</span>
+                <span [hidden]="!reverse">▲</span>
               </span>
             </th>
             <th scope="col" [class.active]="order === 'net2'"
                 (click)="setOrder('net2')">NET
               <span *ngIf="order === 'net2'">
                 <span [hidden]="reverse">▼</span>
-              <span [hidden]="!reverse">▲</span>
+                <span [hidden]="!reverse">▲</span>
               </span>
             </th>
             <th scope="col" [class.active]="order === 'sos2'"
@@ -70,26 +70,26 @@
                 (click)="setOrder('q1Wins2')">Q1 W
               <span *ngIf="order === 'q1Wins2'">
                 <span [hidden]="reverse">▼</span>
-              <span [hidden]="!reverse">▲</span>
+                <span [hidden]="!reverse">▲</span>
               </span>
             <th scope="col" [class.active]="order === 'q2Wins2'"
-                (click)="setOrder('q1Wins2')">Q2 W
-              <span *ngIf="order === 'q1Wins2'">
+                (click)="setOrder('q2Wins2')">Q2 W
+              <span *ngIf="order === 'q2Wins2'">
                 <span [hidden]="reverse">▼</span>
-              <span [hidden]="!reverse">▲</span>
+                <span [hidden]="!reverse">▲</span>
               </span>
             </th>
             <th scope="col" [class.active]="order === 'q3Losses2'"
                 (click)="setOrder('q3Losses2')">Q3 L
               <span *ngIf="order === 'q3Losses2'">
                 <span [hidden]="reverse">▼</span>
-              <span [hidden]="!reverse">▲</span>
+                <span [hidden]="!reverse">▲</span>
               </span>
             <th class="bold-right" scope="col" [class.active]="order === 'q4Losses2'"
                 (click)="setOrder('q4Losses2')">Q4 L
               <span *ngIf="order === 'q4Losses2'">
                 <span [hidden]="reverse">▼</span>
-              <span [hidden]="!reverse">▲</span>
+                <span [hidden]="!reverse">▲</span>
               </span>
             </th>
 
@@ -97,27 +97,27 @@
                 (click)="setOrder('netChange')">NET
               <span *ngIf="order === 'netChange'">
                 <span [hidden]="reverse">▼</span>
-              <span [hidden]="!reverse">▲</span>
+                <span [hidden]="!reverse">▲</span>
               </span>
             </th>
             <th scope="col" [class.active]="order === 'sosChange'"
                 (click)="setOrder('sosChange')">SOS
               <span *ngIf="order === 'sosChange'">
                 <span [hidden]="reverse">▼</span>
-              <span [hidden]="!reverse">▲</span>
+                <span [hidden]="!reverse">▲</span>
               </span>
             </th>
             <th scope="col" [class.active]="order === 'q1WinsChange'"
                 (click)="setOrder('q1WinsChange')">Q1 W
               <span *ngIf="order === 'q1WinsChange'">
                 <span [hidden]="reverse">▼</span>
-              <span [hidden]="!reverse">▲</span>
+                <span [hidden]="!reverse">▲</span>
               </span>
             <th scope="col" [class.active]="order === 'q2WinsChange'"
                 (click)="setOrder('q2WinsChange')">Q2 W
               <span *ngIf="order === 'q2WinsChange'">
                 <span [hidden]="reverse">▼</span>
-              <span [hidden]="!reverse">▲</span>
+                <span [hidden]="!reverse">▲</span>
               </span>
             </th>
             <th scope="col" [class.active]="order === 'q3LossesChange'"
@@ -130,7 +130,7 @@
                 (click)="setOrder('q4LossesChange')">Q4 L
               <span *ngIf="order === 'q4LossesChange'">
                 <span [hidden]="reverse">▼</span>
-              <span [hidden]="!reverse">▲</span>
+                <span [hidden]="!reverse">▲</span>
               </span>
             </th>
           </tr>
