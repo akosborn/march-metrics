@@ -137,7 +137,11 @@
           </thead>
           <tbody class="table-active">
           <tr class="" *ngFor="let team of teamMetricsChanges |  orderBy : order : reverse : 'case-insensitive' | paginate: { itemsPerPage : 15, currentPage : p }">
-            <td>{{ team.teamName }}</td>
+            <td>
+              {{ team.teamName }}
+              <img *ngIf="team.onBubble" src="assets/images/baseline-bubble_chart-24px.svg" alt="On bubble"
+                   ngbTooltip="On the bubble" placement="right">
+            </td>
             <td>{{ team.conferenceName }}</td>
             <td>{{ team.net2 }}</td>
             <td>{{ team.sos2 }}</td>
