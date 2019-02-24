@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MetricService} from '../metric.service';
 import {MetricsDifference} from '../shared/metricsdifference.model';
 import {OrderPipe} from 'ngx-order-pipe';
-import {NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
+import {NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+import {DateFormatPipe} from 'ngx-moment';
 
 @Component({
   selector: 'app-home',
@@ -10,11 +11,10 @@ import {NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  fromDate: NgbDate;
-  toDate: NgbDate;
+  dataDates: Map<String, Date> = new Map();
 
-  from: Date;
-  to: Date;
+  fromDate: Date;
+  toDate: Date;
 
   teamMetricsChanges: Array<MetricsDifference>;
 
@@ -25,19 +25,22 @@ export class HomeComponent implements OnInit {
 
   constructor(private metricsService: MetricService,
               private orderPipe: OrderPipe,
-              private calendar: NgbCalendar) { }
+              private calendar: NgbCalendar,
+              private dfp: DateFormatPipe) { }
 
   ngOnInit() {
-    this.fromDate = this.calendar.getPrev(this.calendar.getToday(), 'd', 9);
-    this.toDate = this.calendar.getPrev(this.calendar.getToday(), 'd', 2);
-    this.from = new Date(this.fromDate.year + '-' + this.fromDate.month + '-' + this.fromDate.day);
-    this.to = new Date(this.toDate.year + '-' + this.toDate.month + '-' + this.toDate.day);
-    this.metricsService.loadChangesByDates(
-      new Date(this.fromDate.year + '-' + this.fromDate.month + '-' + this.fromDate.day),
-      new Date(this.toDate.year + '-' + this.toDate.month + '-' + this.toDate.day)).subscribe(
-      (metricsDifferences: Array<MetricsDifference>) => {
-        this.teamMetricsChanges = metricsDifferences;
-        this.teamMetricsChanges = this.orderPipe.transform(this.teamMetricsChanges, this.order);
+    this.metricsService.loadAllDates().subscribe(
+      (dates: Array<Date>) => {
+        dates.forEach((date) => this.dataDates.set(this.dfp.transform(date, 'YYYY-MM-DD'), date)); // Build map of dates
+        this.fromDate = dates[1]; // Get metrics from a week ago
+        this.toDate = dates[0]; // Get latest metrics
+
+        this.metricsService.loadChangesByDates(this.fromDate, this.toDate).subscribe(
+          (metricsDifferences: Array<MetricsDifference>) => {
+            this.teamMetricsChanges = metricsDifferences;
+            this.teamMetricsChanges = this.orderPipe.transform(this.teamMetricsChanges, this.order);
+          }
+        );
       }
     );
   }
@@ -50,16 +53,15 @@ export class HomeComponent implements OnInit {
   }
 
   onDateRangeSelected() {
-    this.metricsService.loadChangesByDates(
-      new Date(this.fromDate.year + '-' + this.fromDate.month + '-' + this.fromDate.day),
-      new Date(this.toDate.year + '-' + this.toDate.month + '-' + this.toDate.day))
+    this.metricsService.loadChangesByDates(this.fromDate, this.toDate)
       .subscribe(
-      (metricsDifferences: Array<MetricsDifference>) => {
-        this.teamMetricsChanges = metricsDifferences;
-        this.teamMetricsChanges = this.orderPipe.transform(this.teamMetricsChanges, this.order);
-        this.from = new Date(this.fromDate.year + '-' + this.fromDate.month + '-' + this.fromDate.day);
-        this.to = new Date(this.toDate.year + '-' + this.toDate.month + '-' + this.toDate.day);
-      }
-    );
+        (metricsDifferences: Array<MetricsDifference>) => {
+          this.teamMetricsChanges = metricsDifferences;
+          this.teamMetricsChanges = this.orderPipe.transform(this.teamMetricsChanges, this.order);
+        });
+  }
+
+  isDisabledDate = (date: Date) => {
+    return !this.dataDates.get(this.dfp.transform(date, 'YYYY-MM-DD'));
   }
 }
