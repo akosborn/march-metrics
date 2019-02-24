@@ -16,6 +16,7 @@ import { InverseSignPipe } from './inversesign.pipe';
 import { SignPrependPipe } from './signprepend.pipe';
 import {FormsModule} from '@angular/forms';
 import {DateFormatPipe, MomentModule} from 'ngx-moment';
+import {FilterPipeModule} from 'ngx-filter-pipe';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {DateFormatPipe, MomentModule} from 'ngx-moment';
     AppRoutingModule,
     BrowserModule,
     ChartsModule,
+    FilterPipeModule,
     FormsModule,
     HttpClientModule,
     MomentModule,
