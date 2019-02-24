@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MetricService} from '../metric.service';
 import {MetricsDifference} from '../shared/metricsdifference.model';
 import {OrderPipe} from 'ngx-order-pipe';
-import {NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+import {NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
 import {DateFormatPipe} from 'ngx-moment';
 import {FilterPipe} from 'ngx-filter-pipe';
 
@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit {
     this.metricsService.loadAllDates().subscribe(
       (dates: Array<Date>) => {
         dates.forEach((date) => this.dataDates.set(this.dfp.transform(date, 'YYYY-MM-DD'), date)); // Build map of dates
+        console.log(this.dataDates);
         this.fromDate = dates[1]; // Get metrics from a week ago
         this.toDate = dates[0]; // Get latest metrics
 
@@ -65,8 +66,10 @@ export class HomeComponent implements OnInit {
         });
   }
 
-  isDisabledDate = (date: Date) => {
-    return !this.dataDates.get(this.dfp.transform(date, 'YYYY-MM-DD'));
+  isDisabledDate = (ngbDate: NgbDate) => {
+    // NgbDate returns 1-based month, so 1 must be subtracted in native Date constructor
+    const dateString: string = this.dfp.transform(new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day), 'YYYY-MM-DD');
+    return !this.dataDates.get(this.dfp.transform(dateString, 'YYYY-MM-DD'));
   }
 
   toggleFilter() {
