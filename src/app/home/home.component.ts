@@ -4,6 +4,7 @@ import {MetricsDifference} from '../shared/metricsdifference.model';
 import {OrderPipe} from 'ngx-order-pipe';
 import {NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import {DateFormatPipe} from 'ngx-moment';
+import {FilterPipe} from 'ngx-filter-pipe';
 
 @Component({
   selector: 'app-home',
@@ -23,10 +24,13 @@ export class HomeComponent implements OnInit {
   order = 'net2';
   reverse = false;
 
+  teamFilter: any;
+
   constructor(private metricsService: MetricService,
               private orderPipe: OrderPipe,
               private calendar: NgbCalendar,
-              private dfp: DateFormatPipe) { }
+              private dfp: DateFormatPipe,
+              private filter: FilterPipe) { }
 
   ngOnInit() {
     this.metricsService.loadAllDates().subscribe(
@@ -63,5 +67,9 @@ export class HomeComponent implements OnInit {
 
   isDisabledDate = (date: Date) => {
     return !this.dataDates.get(this.dfp.transform(date, 'YYYY-MM-DD'));
+  }
+
+  toggleFilter() {
+    this.teamFilter = this.teamFilter ? null : { onBubble: true };
   }
 }
