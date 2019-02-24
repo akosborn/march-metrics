@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
     this.metricsService.loadAllDates().subscribe(
       (dates: Array<Date>) => {
         dates.forEach((date) => this.dataDates.set(this.dfp.transform(date, 'YYYY-MM-DD'), date)); // Build map of dates
-        this.fromDate = dates[6]; // Get metrics from a week ago
+        this.fromDate = dates[1]; // Get metrics from a week ago
         this.toDate = dates[0]; // Get latest metrics
 
         this.metricsService.loadChangesByDates(this.fromDate, this.toDate).subscribe(
