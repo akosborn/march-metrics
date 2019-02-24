@@ -1,4 +1,4 @@
-<div class="col">
+<div class="col" *ngIf="teamMetricsChanges">
   <div class="p-3 bg-white shadow-sm">
     <div class="row align-items-end">
       <div class="col">
@@ -8,7 +8,7 @@
             <label for="from">From</label>
             <div class="input-group">
               <input id="from" class="form-control" placeholder="yyyy-mm-dd"
-                     name="dp" [(ngModel)]="fromDate" ngbDatepicker #fromPicker="ngbDatepicker">
+                     name="dp" [(ngModel)]="fromDate" [markDisabled]="isDisabledDate" ngbDatepicker #fromPicker="ngbDatepicker">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar" (click)="fromPicker.toggle()" type="button"></button>
               </div>
@@ -18,7 +18,7 @@
             <label for="from">To</label>
             <div class="input-group">
               <input id="to" class="form-control" placeholder="yyyy-mm-dd"
-                     name="dp" [(ngModel)]="toDate" ngbDatepicker #toPicker="ngbDatepicker">
+                     name="dp2" [(ngModel)]="toDate" [markDisabled]="isDisabledDate" ngbDatepicker #toPicker="ngbDatepicker">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar" (click)="toPicker.toggle()" type="button"></button>
               </div>
@@ -29,7 +29,7 @@
           </div>
         </form>
         <br>
-        <table *ngIf="teamMetricsChanges" class="table table-hover table-sm table-responsive-sm">
+        <table class="table table-hover table-sm table-responsive-sm">
           <thead>
           <tr>
             <th scope="col"></th>

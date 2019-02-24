@@ -15,6 +15,7 @@ import {OrderModule} from 'ngx-order-pipe';
 import { InverseSignPipe } from './inversesign.pipe';
 import { SignPrependPipe } from './signprepend.pipe';
 import {FormsModule} from '@angular/forms';
+import {DateFormatPipe, MomentModule} from 'ngx-moment';
 
 @NgModule({
   declarations: [
@@ -32,11 +33,12 @@ import {FormsModule} from '@angular/forms';
     ChartsModule,
     FormsModule,
     HttpClientModule,
+    MomentModule,
     NgbModule,
     NgxPaginationModule,
     OrderModule
   ],
-  providers: [],
+  providers: [DateFormatPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
