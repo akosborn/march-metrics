@@ -2,6 +2,7 @@ export class MetricsDifference {
   teamId: number;
   teamName: string;
   conferenceName: string;
+  onBubble: boolean;
   date1: Date;
   date2: Date;
   net1: number;

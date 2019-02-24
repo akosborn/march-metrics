@@ -27,6 +27,16 @@
           <div class="col-auto">
             <button type="button" class="btn btn-primary" (click)="onDateRangeSelected()">Update</button>
           </div>
+          <div class="col-auto">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="all" (change)="toggleFilter()" [checked]="!teamFilter" value="all">
+              <label class="form-check-label" for="all">All</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="bubble" (change)="toggleFilter()" [checked]="teamFilter" value="bubble">
+              <label class="form-check-label" for="bubble">Bubble</label>
+            </div>
+          </div>
         </form>
         <br>
         <table class="table table-hover table-sm table-responsive-sm">
@@ -60,7 +70,7 @@
               </span>
             </th>
             <th scope="col" [class.active]="order === 'sos2'"
-                (click)="setOrder('so2s')">SOS
+                (click)="setOrder('sos2')">SOS
               <span *ngIf="order === 'sos2'">
                 <span [hidden]="reverse">▼</span>
               <span [hidden]="!reverse">▲</span>
@@ -136,8 +146,12 @@
           </tr>
           </thead>
           <tbody class="table-active">
-          <tr class="" *ngFor="let team of teamMetricsChanges |  orderBy : order : reverse : 'case-insensitive' | paginate: { itemsPerPage : 15, currentPage : p }">
-            <td>{{ team.teamName }}</td>
+          <tr class="" *ngFor="let team of teamMetricsChanges | filterBy: teamFilter |  orderBy : order : reverse : 'case-insensitive' | paginate: { itemsPerPage : 15, currentPage : p }">
+            <td>
+              {{ team.teamName }}
+              <img *ngIf="team.onBubble" src="assets/images/baseline-bubble_chart-24px.svg" alt="On bubble"
+                   ngbTooltip="On the bubble" placement="right">
+            </td>
             <td>{{ team.conferenceName }}</td>
             <td>{{ team.net2 }}</td>
             <td>{{ team.sos2 }}</td>
