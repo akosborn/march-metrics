@@ -18,7 +18,7 @@ export class MetricService {
     return this.http.get(AppComponent.API_BASE_URL + '/teams/' + id)
       .pipe(map(
         (response: any) => {
-          return new Team(response.id, response.name, response.conference, response.metrics);
+          return new Team(response.id, response.name, response.conference, response.onBubble, response.metrics);
         }
       ));
   }
