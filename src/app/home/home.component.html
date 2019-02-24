@@ -34,8 +34,8 @@
           <tr>
             <th scope="col"></th>
             <th scope="col"></th>
-            <th class="text-center bold-right" scope="col" colspan="6">{{ to.toDateString() }}</th>
-            <th class="text-center" scope="col" colspan="6">{{ from.toDateString() + ' to ' + to.toDateString() }}</th>
+            <th class="text-center bold-right" scope="col" colspan="6">{{ toDate.toDateString() }}</th>
+            <th class="text-center" scope="col" colspan="6">{{ fromDate.toDateString() + ' to ' + toDate.toDateString() }}</th>
           </tr>
           <tr>
             <th class="text-left" scope="col" [class.active]="order === 'teamName'"

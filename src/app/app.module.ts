@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateAdapter, NgbDateNativeAdapter, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { TopNavComponent } from './top-nav/top-nav.component';
 import {HttpClientModule} from '@angular/common/http';
 import { TeamComponent } from './team/team.component';
@@ -38,7 +38,7 @@ import {DateFormatPipe, MomentModule} from 'ngx-moment';
     NgxPaginationModule,
     OrderModule
   ],
-  providers: [DateFormatPipe],
+  providers: [DateFormatPipe,  { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
