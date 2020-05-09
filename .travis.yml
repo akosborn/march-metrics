@@ -3,5 +3,7 @@ node_js:
   - 12
 
 script:
-  - npm install --unsafe-perm=true
   - ng build --prod
+
+before_deploy:
+  - tar -zcf marchcharts-${TRAVIS_COMMIT}-${TRAVIS_BUILD_NUMBER}.tar.gz ./dist/cbb-metrics
