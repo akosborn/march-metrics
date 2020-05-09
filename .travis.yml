@@ -7,3 +7,7 @@ script:
 
 before_deploy:
   - tar -zcf marchcharts-${TRAVIS_COMMIT}-${TRAVIS_BUILD_NUMBER}.tar.gz ./dist/cbb-metrics
+
+deploy:
+  provider: script
+  script: echo "testing"
