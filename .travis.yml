@@ -11,3 +11,5 @@ before_deploy:
 deploy:
   provider: script
   script: echo "testing"
+  on:
+    all_branches: true
